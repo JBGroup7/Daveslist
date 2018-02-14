@@ -24,8 +24,7 @@ public class Room {
     @NotNull
     private String state;
 
-    @NotNull
-    private String isRented= "Not Rented";
+
 
     @NotNull
     private int price;
@@ -40,8 +39,10 @@ public class Room {
 
     private String rules;
 
-    public Room(){
+    private boolean rented;
 
+    public Room(){
+    rented=false;
     }
     public Room(String a, String c, String s, int p){
         this.address = a;
@@ -82,7 +83,9 @@ public class Room {
         this.state = state;
     }
 
+    public boolean isRented() {  return rented;  }
 
+    public void setRented(boolean rented) { this.rented = rented;  }
 
     public int getPrice() {
         return price;
@@ -132,11 +135,5 @@ public class Room {
         this.rules = rules;
     }
 
-    public String getIsRented() {
-        return isRented;
-    }
 
-    public void setIsRented(String isRented) {
-        this.isRented = isRented;
-    }
 }

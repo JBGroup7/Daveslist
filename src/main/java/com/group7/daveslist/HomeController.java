@@ -51,8 +51,30 @@ public class HomeController {
     public String updateListing(@PathVariable("id") long id, Model model) {
         Room room = roomRepository.findOne(id);
         model.addAttribute("room", room);
-        return "Form";
+        return "updateform";
     }
+
+    @PostMapping("/updateform")
+    public String processupdateForm(@Valid @ModelAttribute("room") Room room, BindingResult result, Model model){
+        if(result.hasErrors()){
+            return "updateform";
+        }
+        model.addAttribute("room", room);
+        roomRepository.save(room);
+        model.addAttribute("roomRepository", roomRepository);
+        return "redirect:/";
+    }
+
+    @RequestMapping ("/rent/{id}")
+    public String rentRoom(@PathVariable("id") long id, Model model){
+
+        Room toberented=roomRepository.findOne(id);
+        toberented.setRented(true);
+        roomRepository.save(toberented);
+        model.addAttribute("room",roomRepository.findOne(id));
+        return "redirect:/";
+    }
+
 
     @RequestMapping("/login")
     public String login(){
