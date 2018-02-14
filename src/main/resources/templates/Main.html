@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="www.thymeleaf.com">
+<head>
+    <meta charset="UTF-8" />
+    <title>Dave's List</title>
+</head>
+<body>
+    <h1>All Listings</h1>
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">Address</th>
+            <th scope="col">City</th>
+            <th scope="col">State</th>
+            <th scope="col">Price</th>
+            <th scope="col">Actions</th>
+
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="room : ${allrooms}">
+            <td><a th:href="@{/details/{id} (id=${room.id})}" th:text="${room.address}"></a></td>
+
+            <td th:text="${room.city}"></td>
+            <td th:text="${room.state}"></td>
+            <td th:text="${room.price}"></td>
+            <td><a th:href="@{/update/{id} (id=${room.id})}">Update Listing</a></td>
+
+        </tr>
+        </tbody>
+    </table>
+
+    <a class="btn btn-primary btn-small" href="/login" role="button">Login as Admin</a><br />
+    <a class="btn btn-primary btn-small" href="/form" role="button">Add New Listing</a><br />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+</body>
+</html>
