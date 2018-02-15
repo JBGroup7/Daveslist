@@ -14,12 +14,21 @@ public class HomeController {
     @Autowired
     RoomRepository roomRepository;
 
+    @Autowired
+    private UserService userService;
+
     @RequestMapping("/")
     public String mainPage(Model model){
         model.addAttribute("allrooms", roomRepository.findAll());
         return "Main";
     }
 
+
+    @RequestMapping("/private")
+    public String privatePage(Model model){
+        model.addAttribute("allrooms", roomRepository.findAll());
+        return "PrivateListing";
+    }
     //processlogininfo
 
     @GetMapping("/form")
@@ -51,19 +60,10 @@ public class HomeController {
     public String updateListing(@PathVariable("id") long id, Model model) {
         Room room = roomRepository.findOne(id);
         model.addAttribute("room", room);
-        return "updateform";
+        return "Form";
+
     }
 
-    @PostMapping("/updateform")
-    public String processupdateForm(@Valid @ModelAttribute("room") Room room, BindingResult result, Model model){
-        if(result.hasErrors()){
-            return "updateform";
-        }
-        model.addAttribute("room", room);
-        roomRepository.save(room);
-        model.addAttribute("roomRepository", roomRepository);
-        return "redirect:/";
-    }
 
     @RequestMapping ("/rent/{id}")
     public String rentRoom(@PathVariable("id") long id, Model model){
@@ -71,7 +71,19 @@ public class HomeController {
         Room toberented=roomRepository.findOne(id);
         toberented.setRented(true);
         roomRepository.save(toberented);
-        model.addAttribute("room",roomRepository.findOne(id));
+        //model.addAttribute("room",roomRepository.findOne(id));
+        return "redirect:/";
+    }
+
+
+
+    @RequestMapping ("/public/{id}")
+    public String publicRoom(@PathVariable("id") long id, Model model){
+
+        Room room =roomRepository.findOne(id);
+        room.setListingType("public");
+        roomRepository.save(room);
+        //model.addAttribute("room",roomRepository.findOne(id));
         return "redirect:/";
     }
 
@@ -80,6 +92,26 @@ public class HomeController {
     public String login(){
         return "Login";
     }
+
+
+    @GetMapping("/registration")
+    public String newUser(Model model){
+        model.addAttribute("user", new User());
+        return "Registration";
+    }
+
+
+    @PostMapping("/registration")
+    public String processUser(@Valid @ModelAttribute("user") User user, BindingResult result, Model model){
+        if(result.hasErrors()){
+            return "Registration";
+        }
+        userService.saveUser(user);
+        return "redirect:/";
+    }
+
+
+
 
 
 

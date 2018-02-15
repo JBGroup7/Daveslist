@@ -13,13 +13,15 @@
             <th scope="col">City</th>
             <th scope="col">State</th>
             <th scope="col">Price</th>
-            <th scope="col">Is Rented</th>
+            <th scope="col">Availability</th>
             <th scope="col">Actions</th>
 
         </tr>
         </thead>
         <tbody>
-        <tr th:each="room : ${allrooms}">
+        <tr th:each="room : ${allrooms}" th:switch="${room.listingType}">
+        <span th:case="'public'">
+
             <td><a th:href="@{/details/{id} (id=${room.id})}" th:text="${room.address}"></a></td>
 
             <td th:text="${room.city}"></td>
@@ -27,22 +29,23 @@
             <td th:text="${room.price}"></td>
 
             <td  th:if="${room.rented}">
-                    <th>Not Available</th></td>
+            <th>Not Available</th></td>
             <td th:unless="${room.rented}">
-                    <th>Available</th></td>
-
-
+            <th>Available</th></td>
             <td><a th:href="@{/update/{id} (id=${room.id})}">Update Listing</a></td>
+            <td><a th:href="@{/rent/{id} (id=${room.id})}">Rented</a></td>
 
-
-
-
+        </span>
+            <span th:case="'private'">
+                <td>Private Listing</td>
+            </span>
 
         </tr>
         </tbody>
     </table>
-
-    <a class="btn btn-primary btn-small" href="/login" role="button">Login as Admin</a><br />
+    <a class="btn btn-primary btn-small" href="/private" role="button">Show Private Listings</a><br />
+    <a class="btn btn-primary btn-small" href="/registration" role="button">Register New User</a><br />
+    <a class="btn btn-primary btn-small" href="/login" role="button">Login</a><br />
     <a class="btn btn-primary btn-small" href="/form" role="button">Add New Listing</a><br />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 </body>

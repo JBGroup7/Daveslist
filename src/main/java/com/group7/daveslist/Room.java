@@ -41,6 +41,8 @@ public class Room {
 
     private boolean rented;
 
+    private String listingType = "private";
+
     public Room(){
     rented=false;
     }
@@ -49,6 +51,7 @@ public class Room {
         this.city = c;
         this.state = s;
         this.price = p;
+
     }
 
     public long getId() {
@@ -136,4 +139,11 @@ public class Room {
     }
 
 
+    public String getListingType() {
+        return listingType;
+    }
+
+    public void setListingType(String listingType) {
+        this.listingType = listingType;
+    }
 }
